@@ -1,10 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
 import BlogList from '../components/page/BlogList.astro';
-
-const posts = (await getCollection('blog', ({id}) => (id.startsWith('en/')))).sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
-);
 ---
 
-<BlogList posts={ posts } />
+<BlogList lang='en' />
