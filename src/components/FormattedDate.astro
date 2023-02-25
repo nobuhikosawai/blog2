@@ -2,17 +2,17 @@
 export type Props = {
   date: Date;
   className?: string;
-}
+};
 
 const { date, className } = Astro.props;
 ---
 
 <time datetime={date.toISOString()} class={className}>
-	{
-		date.toLocaleDateString('en-us', {
-			year: 'numeric',
-			month: 'short',
-			day: 'numeric',
-		})
-	}
+  {
+    date.toLocaleDateString('en-us', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    })
+  }
 </time>

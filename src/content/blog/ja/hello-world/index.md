@@ -1,6 +1,6 @@
 ---
 title: Hello World
-pubDate: "2019-01-02"
+pubDate: '2019-01-02'
 description: Woo hoo
 ---
 

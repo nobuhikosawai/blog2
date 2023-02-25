@@ -1,6 +1,6 @@
 ---
 title: フロントエンド開発におけるちょっと便利スクリプト(Scaffolding）
-pubDate: "2019-06-27"
+pubDate: '2019-06-27'
 description: schematicsを使ったscaffoldingについて
 ---
 

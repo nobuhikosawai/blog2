@@ -6,22 +6,22 @@ import Footer from '../components/Footer.astro';
 export type Props = {
   title: string;
   description: string;
-}
+};
 
-const { title, description} = Astro.props;
+const { title, description } = Astro.props;
 ---
 
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<BaseHead title={title} description={description} />
-	</head>
+  <head>
+    <BaseHead title={title} description={description} />
+  </head>
 
-	<body>
+  <body>
     <Header />
-    <main class="prose prose-slate lg:prose-lg mx-auto lg:max-w-4xl">
+    <main class="prose prose-slate mx-auto lg:prose-lg lg:max-w-4xl">
       <slot />
     </main>
-    <Footer>
-	</body>
+    <Footer />
+  </body>
 </html>

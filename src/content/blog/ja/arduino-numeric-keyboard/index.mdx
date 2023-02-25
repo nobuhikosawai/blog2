@@ -4,13 +4,13 @@ pubDate: '2020-10-10'
 description: Arduino Leonardでテンキー（のプロトタイピング）を作った話のとキーマトリックスについて
 ---
 
-import sample from './numeric_keyboard_sample.jpg'
-import fritzing from './fritzing.png'
+import sample from './numeric_keyboard_sample.jpg';
+import fritzing from './fritzing.png';
 
 実は、[@catalyst_yuki_k](https://twitter.com/catalyst_yuki_k)と時々電子工作的なことをするというのを去年くらいからすこしずつやっている。
 一時期出張とかコロナでしばらく中断していたけど、最近になって再開してみたらこれが意外と進捗して楽しかったので、やったことを忘れないうちに書いておく。[^1]
 
-ソフトウェア系のblogとかだとやってみた的な記事ってたいていみつかるのだけど、ことハードとなるとこれが意外と見つからなくて、配線図とコードの全文が
+ソフトウェア系の blog とかだとやってみた的な記事ってたいていみつかるのだけど、ことハードとなるとこれが意外と見つからなくて、配線図とコードの全文が
 まるっと見れるところがなかったりして、色々調べたりハマったこともあるので自分たちがやったことを忘れないようにメモしておく。
 
 もし何かやろうという人の参考になれば非常に幸いです。
@@ -23,7 +23,17 @@ import fritzing from './fritzing.png'
 
 ゆくゆくは実際のキーボードにしたいけど、今回はプロトタイピングということで、ブレッドボードとタクトスイッチで代用している。
 
-<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">夏休みの宿題よろしくテンキー作った <a href="https://t.co/x4Qa4FZg0R">pic.twitter.com/x4Qa4FZg0R</a></p>&mdash; nobuhikosawai (@nobuhikosawai) <a href="https://twitter.com/nobuhikosawai/status/1314942823603400704?ref_src=twsrc%5Etfw">October 10, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<blockquote class="twitter-tweet">
+  <p lang="ja" dir="ltr">
+    夏休みの宿題よろしくテンキー作った{' '}
+    <a href="https://t.co/x4Qa4FZg0R">pic.twitter.com/x4Qa4FZg0R</a>
+  </p>
+  &mdash; nobuhikosawai (@nobuhikosawai) <a href="https://twitter.com/nobuhikosawai/status/1314942823603400704?ref_src=twsrc%5Etfw">October 10, 2020</a>
+</blockquote> <script
+  async
+  src="https://platform.twitter.com/widgets.js"
+  charset="utf-8"
+></script>
 
 写真はこちら
 
@@ -34,11 +44,11 @@ import fritzing from './fritzing.png'
 - Arduino Leaonard
 - ブレッドボード
 - ダイオード
-- 10kΩ抵抗
+- 10kΩ 抵抗
 - タクトスイッチ
 
-もともとは[Grove Beginner Kit](https://www.switch-science.com/catalog/6361/)にあるArduino互換のボードで作ろうと思っていたのだけど、
-搭載されているArduinoがUNO互換で [どうやらUNOだとHID機能に対応していない](https://qiita.com/MergeCells/items/17bdc1c1fb35949195b5#マイコンボードを選ぶ際の注意点)ようだったので、Arduino Lenoardに変更した。
+もともとは[Grove Beginner Kit](https://www.switch-science.com/catalog/6361/)にある Arduino 互換のボードで作ろうと思っていたのだけど、
+搭載されている Arduino が UNO 互換で [どうやら UNO だと HID 機能に対応していない](https://qiita.com/MergeCells/items/17bdc1c1fb35949195b5#マイコンボードを選ぶ際の注意点)ようだったので、Arduino Lenoard に変更した。
 
 ## やったこと
 
@@ -46,7 +56,7 @@ import fritzing from './fritzing.png'
 
 キーマトリックスは少ないマイコンでキーボードみたいな入出力の多いデバイスを実現するための方法である。
 
-キーボードをナイーブに1つの入出力に対してマイコン1つみたいな組み方をしてしまうと、キーの数だけマイコンが必要になってしまう。
+キーボードをナイーブに 1 つの入出力に対してマイコン 1 つみたいな組み方をしてしまうと、キーの数だけマイコンが必要になってしまう。
 それではキー増えるたびにどんどんマイコンが必要になってしまうので、[こちらの図](https://synapse.kyoto/lib/ResKeypad/page001.html#index1)にあるように、キーごとに入出力に使うピンの組み合わせを変えておくことで、少ないマイコンで多くのキーの入力を読み取っていくという方式になっている。
 
 キーマトリックスの注意点として、同時押しをした場合に意図しないキーの入力が検出されることがある。それを解決するために、意図しない方向へ電流が流れるのを防ぐため、
@@ -58,13 +68,13 @@ import fritzing from './fritzing.png'
 
 実際に作成した配線はこちら。
 
-配線図は[fritzing](https://fritzing.org)で作成した。OSSなので公式のページの他、[Github](https://github.com/fritzing/fritzing-app)からも入手が可能。
+配線図は[fritzing](https://fritzing.org)で作成した。OSS なので公式のページの他、[Github](https://github.com/fritzing/fritzing-app)からも入手が可能。
 
 <img src={fritzing} alt="配線" />
 
 ### プログラム
 
-今回作成したArduinoで動作させるコードは以下のとおり。
+今回作成した Arduino で動作させるコードは以下のとおり。
 
 ```cpp
 #include "Keyboard.h"
@@ -140,6 +150,7 @@ void loop() {
 ```
 
 ## 苦労したこと
+
 ### チャタリング
 
 いくつかのサイトを見て組んでいったのだけど、最初に組んだときは入力していないのに勝手にキーボードからキーが入力されるという現象が発生した。
@@ -149,32 +160,33 @@ void loop() {
 
 正しくプルダウン抵抗を接続した結果、チャタリングが起きなくなった。
 
-あとで[こちら](http://eucalyn.hatenadiary.jp/entry/original-keyboard-08)で知ったのだが、Arduinoは内蔵のプルアップ抵抗があるらしく、最初からそれをつかうと自分たちで抵抗を設置する必要がなくもっとシンプルにできたみたいだった。
+あとで[こちら](http://eucalyn.hatenadiary.jp/entry/original-keyboard-08)で知ったのだが、Arduino は内蔵のプルアップ抵抗があるらしく、最初からそれをつかうと自分たちで抵抗を設置する必要がなくもっとシンプルにできたみたいだった。
 ([プルダウン抵抗はないみたいです。](https://github.com/esp8266/Arduino/issues/478))
 
 ### USB HID Usage ID
 
-プログラムに使うキーコードだが、ASCIIと書いてあるところもあったのだが、実際に試して見ると意図したとおりに入力できない文字があった。
+プログラムに使うキーコードだが、ASCII と書いてあるところもあったのだが、実際に試して見ると意図したとおりに入力できない文字があった。
 
-また、テンキーだとNumLockみたいな文字に存在しないコードや、NumLockによる挙動の切り替えみたいなものもあって、それらを取り扱える必要がある。
+また、テンキーだと NumLock みたいな文字に存在しないコードや、NumLock による挙動の切り替えみたいなものもあって、それらを取り扱える必要がある。
 
 実際には、[USB HID Usage ID](https://bsakatu.net/doc/usb-hid-to-scancode)で入力する必要があるようで、それに修正すると正しく動いた。
 
-注意としてArduinoでUSB HID Usage IDで取り扱うには136を足す必要がある。
+注意として Arduino で USB HID Usage ID で取り扱うには 136 を足す必要がある。
 
 参考:
+
 - https://forum.arduino.cc/index.php?topic=179548.0
 - https://forum.arduino.cc/index.php?topic=315324.0
 
 ## 最後に
 
-後日談としてここで作成したテンキーをもとにArduino用のシールドの基盤を書いて、[Fusion PCB](https://www.fusionpcb.jp/fusion_pcb.html)に発注してみた。
+後日談としてここで作成したテンキーをもとに Arduino 用のシールドの基盤を書いて、[Fusion PCB](https://www.fusionpcb.jp/fusion_pcb.html)に発注してみた。
 
 続編でそのあたりの話も書いてみたいと思う。
 
 ## 参考にしたサイト
-- [1から自作キーボードを作ってみた](https://qiita.com/kamaboko123/items/c32ad91434ffc7f4ff8d)
-- [オリジナルキーボードを作ってみる その7「キーマトリックス」](http://eucalyn.hatenadiary.jp/entry/original-keyboard-07)
 
+- [1 から自作キーボードを作ってみた](https://qiita.com/kamaboko123/items/c32ad91434ffc7f4ff8d)
+- [オリジナルキーボードを作ってみる その 7「キーマトリックス」](http://eucalyn.hatenadiary.jp/entry/original-keyboard-07)
 
 [^1]: 一緒にやってると言いつつハードは周りは友人のほうが詳しくて僕は初心者なので、おんぶにだっこで教えてもらってるみたいな感じだったりもします。

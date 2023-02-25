@@ -4,22 +4,22 @@ pubDate: 2021-04-17
 description: Riverpod, Flutter Hooks, StateNotifier, Freezedを使ったFlutterアプリの設計について
 ---
 
-import AppVideo from './todo_app_example.mp4'
-import LoginVideo from './todo_app_login.mp4'
-import dependency from './dependency.png'
+import AppVideo from './todo_app_example.mp4';
+import LoginVideo from './todo_app_login.mp4';
+import dependency from './dependency.png';
 
 (2022-11-30 追記)
 この記事は当時の理解に基いて書いたものですが、その後もう少し大きい規模のアプリケーションを作る機会があり、人と話しながらアーキテクチャ選定を進めているのですが、その観点からみると、大規模なアプケーション開発に向かない部分があったり、今みると我ながらどうしてこうしたと思う部分があるので、メモを追記しておきます。ライブラリの組み合わせ方みたいなところだけは今でも参考になると思います(逆にいうとそれ以外のところは微妙だったかもと思いなおしています。)
 
-1.  hooksを多用するかどうか
+1.  hooks を多用するかどうか
 
 アプリケーションの規模によりそうだなと思っていて、特に論点になりそうなのが状態管理系のものかなと思います。
 
-hooks的なものは便利だなと思いつつ、flutterでは基本的に全てクラスのインスタンスとして扱かわれる以上、必要な関数だけをhooksから返すといったような使いかたはできません。
+hooks 的なものは便利だなと思いつつ、flutter では基本的に全てクラスのインスタンスとして扱かわれる以上、必要な関数だけを hooks から返すといったような使いかたはできません。
 
-なので、例えばあるフォームからticketIdを登録して使用済みにするというような例を考えてみます。useXXFormを定義して、canSubmitを返したいようなケースを考えます。
+なので、例えばあるフォームから ticketId を登録して使用済みにするというような例を考えてみます。useXXForm を定義して、canSubmit を返したいようなケースを考えます。
 
-tsだと関数をそのまま返すことができるので、以下のように書けます。
+ts だと関数をそのまま返すことができるので、以下のように書けます。
 
 ```tsx
 const useUseTicket = () => {
@@ -33,14 +33,14 @@ const useUseTicket = () => {
     ticketId,
     setTicketId,
     canSubmit,
-    mutate
-  }
-}
+    mutate,
+  };
+};
 
 const { setTicketId, canSubmit, mutate } = useUseTicket();
 ```
 
-flutterだとclassにマッピングして返すことが一般的なので、それ専用のクラスを定義する必要ができ、実質それがviewmodelに近しいものになります。
+flutter だと class にマッピングして返すことが一般的なので、それ専用のクラスを定義する必要ができ、実質それが viewmodel に近しいものになります。
 
 ```dart
 class TicketController {
@@ -71,16 +71,16 @@ fc.setTicketId(ticketId);
 fc.mutate();
 ```
 
-アプリケーションが小規模でview側にある程度ロジックを追いても気にならないようであれば、特に問題にならないと思うのですが、ある程度の規模になったりテスタビリティとかを気にしだすと使いにくいところがありそうです。
+アプリケーションが小規模で view 側にある程度ロジックを追いても気にならないようであれば、特に問題にならないと思うのですが、ある程度の規模になったりテスタビリティとかを気にしだすと使いにくいところがありそうです。
 
-formのような複数の状態が絡みあうようなものだと結局それらを束ねる状態クラスを定義する必要が発生しそうなので、それほど便利ではない可能性がありそうだなと感じています。
+form のような複数の状態が絡みあうようなものだと結局それらを束ねる状態クラスを定義する必要が発生しそうなので、それほど便利ではない可能性がありそうだなと感じています。
 
-またflutter_hooksはhooksが基本的にWidgetから呼びだす必要があるため、hooksをネストして、他の状態クラスの内部から使うといった使いかたはできないところも現実に使う上では困りそうなところです。
+また flutter_hooks は hooks が基本的に Widget から呼びだす必要があるため、hooks をネストして、他の状態クラスの内部から使うといった使いかたはできないところも現実に使う上では困りそうなところです。
 
-2. AsyncValueを使うかどうか
+2. AsyncValue を使うかどうか
 
-AsyncValue自体は便利なメソッドが沢山生えていますが、UIで使うにはもしかしたら不便かもしれません。
-AsyncValueのwhenを使うと以下のように非同期状態における描画を簡単に書くことができます。
+AsyncValue 自体は便利なメソッドが沢山生えていますが、UI で使うにはもしかしたら不便かもしれません。
+AsyncValue の when を使うと以下のように非同期状態における描画を簡単に書くことができます。
 
 ```dart
 class Example extends ConsumerWidget {
@@ -97,17 +97,16 @@ class Example extends ConsumerWidget {
 }
 ```
 
-ただし、欠点もあり、いずれかの状態しかとりえないため、エラーが起きたときにトーストを表示するようなUIを定義した場合にdataが取得できなくなり、画面が白くなるなどの問題が起きます。
+ただし、欠点もあり、いずれかの状態しかとりえないため、エラーが起きたときにトーストを表示するような UI を定義した場合に data が取得できなくなり、画面が白くなるなどの問題が起きます。
 
-また、pull to refreshをしてエラーだったら、前回の状態を保持したままエラートーストを表示するといったような使い方をする場合、前回状態とエラー状態を同時に表示する必要があるので、`when` メソッドなどを使うことができません。
-whenを使わなければいいだけですが、その場合view modelでAsyncValueが持っているような`isLoading`のような定義は内部で独自に定義してしまえばよいので、特にうれしくないかもしれません.
+また、pull to refresh をしてエラーだったら、前回の状態を保持したままエラートーストを表示するといったような使い方をする場合、前回状態とエラー状態を同時に表示する必要があるので、`when` メソッドなどを使うことができません。
+when を使わなければいいだけですが、その場合 view model で AsyncValue が持っているような`isLoading`のような定義は内部で独自に定義してしまえばよいので、特にうれしくないかもしれません.
 
-逆にview modelではなくリソースを操作するようなcontrollerを定義しているプロジェクトの場合は使えるかもしれないです(未検証)
+逆に view model ではなくリソースを操作するような controller を定義しているプロジェクトの場合は使えるかもしれないです(未検証)
 
-3. Controllerのcontructorで非同期通信を呼び出している件
+3. Controller の contructor で非同期通信を呼び出している件
 
-contructorが副作用を持つのは気持ち悪いので、単にview側で`useFuture(useMemoized(() => fetch()))` を走らせた方が良いと思います。
-
+contructor が副作用を持つのは気持ち悪いので、単に view 側で`useFuture(useMemoized(() => fetch()))` を走らせた方が良いと思います。
 
 ## はじめに
 

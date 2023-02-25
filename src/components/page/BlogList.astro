@@ -5,25 +5,32 @@ import FormattedDate from '../../components/FormattedDate.astro';
 import { getCollection } from 'astro:content';
 
 export type Props = {
-  lang?: 'en' | 'ja'
-}
+  lang?: 'en' | 'ja';
+};
 
 const { lang } = Astro.props;
 
-const filter = lang ? ({id}: {id: string}) => id.startsWith(`${lang}/`) : undefined
+const filter = lang
+  ? ({ id }: { id: string }) => id.startsWith(`${lang}/`)
+  : undefined;
 
 const posts = (await getCollection('blog', filter)).sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
 ---
 
 <BaseLayout title={SITE_TITLE} description={SITE_DESCRIPTION}>
-  <section class="bg-white shadow-xl shadow-slate-700/10 ring-1 ring-gray-900/5 md:max-w-3xl md:mx-auto lg:max-w-4xl lg:py-8 lg:px-16 rounded-2xl">
+  <section
+    class="rounded-2xl bg-white shadow-xl shadow-slate-700/10 ring-1 ring-gray-900/5 md:mx-auto md:max-w-3xl lg:max-w-4xl lg:py-8 lg:px-16"
+  >
     <ul>
       {
         posts.map((post) => (
           <li class="flex">
-            <FormattedDate className="italic shrink-0 basis-32" date={post.data.pubDate} />
+            <FormattedDate
+              className="shrink-0 basis-32 italic"
+              date={post.data.pubDate}
+            />
             <a href={`${post.slug}/`}>{post.data.title}</a>
           </li>
         ))
@@ -31,4 +38,3 @@ const posts = (await getCollection('blog', filter)).sort(
     </ul>
   </section>
 </BaseLayout>
-

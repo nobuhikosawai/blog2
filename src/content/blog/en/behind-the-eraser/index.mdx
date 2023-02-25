@@ -4,11 +4,11 @@ pubDate: 2023-02-08
 description: My experience and learning from creating eraser function
 ---
 
-import splitting from './splitting.png'
-import clipWithLine from './clip-with-line.png'
-import clipWithRect from './clip-with-rect.png'
-import intersecting from './intersecting.png'
-import closeToShape from './close-to-shape.png'
+import splitting from './splitting.png';
+import clipWithLine from './clip-with-line.png';
+import clipWithRect from './clip-with-rect.png';
+import intersecting from './intersecting.png';
+import closeToShape from './close-to-shape.png';
 
 You are familiar with eraser on the paper but when it comes to implementing it on the online whiteboard, it becomes a very different story.
 A bit while ago, I have implemented the eraser feature for an online whiteboard, so I wanted to write down my experience and things I learned.
@@ -92,11 +92,14 @@ In our app, to avoid saving unnecessary data, the eraser stroke that does not de
 
 To erase a shape, you have to detect if the current cursor is overlapping any shape. More precisely, you have to detect if the line segment comprised of the current cursor position and the previous position is intersecting a shape. If this line intersects a shape then it is erased.
 
-<img src={intersecting} alt="Case where the eraser is intersecting a shape"/>
+<img src={intersecting} alt="Case where the eraser is intersecting a shape" />
 
 The other case you should consider is when the shape stroke is very thick. In this case, although the line segment of pervious point and the current point does not intersect a shape, because the stroke is thick, it would look as if the eraser is overlapping an underlying shape. In this case the current point have to be considered as an effective eraser stroke.
 
-<img src={closeToShape} alt="Case where the eraser is not interscting but close enough to delete a shape"/>
+<img
+  src={closeToShape}
+  alt="Case where the eraser is not interscting but close enough to delete a shape"
+/>
 
 To sum up, the intersection detection would be the following:
 
