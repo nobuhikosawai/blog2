@@ -21,8 +21,11 @@ const posts = (await getCollection('blog', filter)).sort(
 
 <BaseLayout title={SITE_TITLE} description={SITE_DESCRIPTION}>
   <section
-    class="not-prose rounded-2xl bg-white shadow-xl shadow-slate-700/10 ring-1 ring-gray-900/5 md:mx-auto md:max-w-3xl lg:max-w-4xl lg:p-16"
+    class="not-prose rounded-2xl bg-white shadow-xl shadow-slate-700/10 ring-1 ring-gray-900/5 md:mx-auto md:max-w-3xl lg:max-w-4xl lg:px-16 lg:pb-16 lg:pt-11"
   >
+    <div class="text-right text-sm">
+      <a class="underline"  href="/en">English</a> / <a class="underline" href="/ja">日本語</a>
+    </div>
     <ul>
       {
         posts.map((post) => (
