@@ -6,7 +6,7 @@ description: schematicsを使ったscaffoldingについて
 
 最近フロントエンドを開発する機会が多くて、その中でこれまであったほうがいいけどやる機会のなかった便利スクリプト的なもの触ったり、コマンドを用意する機会があったので、備忘録としてメモしておく。
 
-# Scaffolding
+## Scaffolding
 
 ディレクトリの構成にもよるのだけど、現在開発しているプロジェクトでは component (UI のみを担う stateless な component)を 1 つのでディレクトリで管理している。
 React の component を開発するのに必要になるものは大体決まっていて、component 本体(jsx)、css、storybook、test になる。これらを 1 つのディレクトリでまとめて管理する方法である。
@@ -45,7 +45,7 @@ Schematics は Angular 製の template ベースの scaffold エンジンであ�
 
 などがある。Angular 製といえでも実際には Angular 以外でも活用することができるのでこれを採用した。
 
-# 使用例
+## 使用例
 
 上記の記事を見ればほぼ分かるが、実際の利用例は以下の通り。
 
@@ -103,7 +103,7 @@ stories.add('YourComponent', () => <YourComponent {...props} />);
 
 `your-component.css`はファイルのみ
 
-# コード例
+## コード例
 
 実際に作ったものはこれ。もともと Schematics 自体は完全に独立した自分用の scaffold エンジンとして作成できるが、今回はプロジェクトで使いたいものだったので、プロジェクトと独立した scaffold ではなく、プロジェクトの lib 以下に配置し、npm script として利用できるようにしている。
 
@@ -228,7 +228,7 @@ stories.add('<%= classify(name) %>', () => <<%= classify(name) %> {...props} />)
 
 build の方法がめっちゃ雑なのは一旦ご愛嬌で。。。
 
-# まとめ
+## まとめ
 
 React のプロジェクトにおいて、Schematics を用いた scaffolding の方法を紹介した。
 プロジェクトのメンテナビリティの担保と、DX の登録にはこういう script 用意しておくのが非常に大事。
