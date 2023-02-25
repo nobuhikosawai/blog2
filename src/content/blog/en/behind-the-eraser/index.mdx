@@ -15,11 +15,11 @@ A bit while ago, I have implemented the eraser feature for an online whiteboard,
 
 You can find the brief gif of what I have implemented [here](https://blog.classdo.com/en/sketchpad-enhancement-make-fine-corrections-with-eraser).
 
-# Acknowledgement
+## Acknowledgement
 
 Our online whiteboard application uses vector data (JSON data saving the coordination of mouse events.), not rasterized data.
 
-# Spec
+## Spec
 
 Eraser on the online whiteboard is not as straightforward as you hear. You have to carefully consider the spec first.
 
@@ -57,7 +57,7 @@ The good side of this approach is the implementation can be very simple.
 
 With these three options, I chose #2 for our application because our app users wanted to have more whiteboard like experience. We added the spec limitation that the erased shape cannot be moved around to reduce the strange feeling.
 
-# Data Structure
+## Data Structure
 
 With #2 approach, the eraser stroke is also another shape but we don't want to treat it as the different shape. Instead, we want to treat the erased shape and eraser stroke itself altogether. To achieve so, we need to group both the erased shape and eraser strokes. In our case, we already used [Konva](https://konvajs.org), so I used its group feature.
 
@@ -86,9 +86,9 @@ export interface EraserGroupShape<T extends ErasableShape = ErasebleShape> {
 
 In our app, to avoid saving unnecessary data, the eraser stroke that does not delete anything (i.e. outside of shapes) are omitted and unsaved.
 
-# Algorithms
+## Algorithms
 
-## Overall algorithms
+### Overall algorithms
 
 To erase a shape, you have to detect if the current cursor is overlapping any shape. More precisely, you have to detect if the line segment comprised of the current cursor position and the previous position is intersecting a shape. If this line intersects a shape then it is erased.
 
@@ -114,7 +114,7 @@ When erasing a rectangle shape, then it would be like this.
 
 <img src={clipWithRect} alt="Line clipping with rectanble" />
 
-## Intersection detection & clipping
+### Intersection detection & clipping
 
 We need two geometry calculations, intersection detection and line clipping. There are algorithms and mathematical calculation depending on what type of shape a line segment is interacting with.
 
@@ -122,13 +122,13 @@ I'm listing some of the algorithms or piece of codes that I have used. Some of t
 
 I have created the [Github repo](https://github.com/nobuhikosawai/drawing-tool-utils) for the actual working code of the following algorithms. You can check it out if you are interested.
 
-### Line-segment vs Line-segment
+#### Line-segment vs Line-segment
 
-#### Intersection detection
+##### Intersection detection
 
 There are [math equation](https://en.wikipedia.org/wiki/Line%E2%80%93line_intersection#Given_two_points_on_each_line_segment) for this.
 
-#### Thick-line intersection detection
+##### Thick-line intersection detection
 
 In this case, treat thick shape as rectangle and detect the intersection.
 
@@ -165,30 +165,30 @@ export const intersectsPolyline = (
 };
 ```
 
-#### Clipping
+### Clipping
 
 There is no specific clipping for line-segments because you only need points that is detected as intersction.
 
-### Line-segment vs Rectangle
+#### Line-segment vs Rectangle
 
 For this one, intersecting detection and clipping can be solved by the same algorithm. There are actually some algorithm for this one. One you might find interesting is [Cohen–Sutherland algorithm](https://en.wikipedia.org/wiki/Cohen%E2%80%93Sutherland_algorithm).
 
 The one I used was [Liang–Barsky algorithm,](https://en.wikipedia.org/wiki/Liang%E2%80%93Barsky_algorithm) which is apparently more efficient than [Cohen–Sutherland](https://en.wikipedia.org/wiki/Cohen–Sutherland).
 
-### Line-segment vs Ellipse
+#### Line-segment vs Ellipse
 
 Unfortunately I could not find the easy answer for this, so I had to solve the equation by myself.
 
-## Distance
+### Distance
 
-### To line-Segment
+#### To line-Segment
 
 This [stackoverflow](https://stackoverflow.com/questions/849211/shortest-distance-between-a-point-and-a-line-segment#comment87713907_849211) is helpful for this one.
 
-### To Rectangle
+#### To Rectangle
 
 Rectangle is composed of 4 line-segment, so this one is pretty straight forward.
 
-### To Ellipse
+#### To Ellipse
 
 This one is very very tricky. This [stackoverlfow](https://stackoverflow.com/questions/22959698/distance-from-given-point-to-given-ellipse/46007540#46007540) is quite helpful for this one but if you want to read more math behind it, you can read [this](https://blog.chatfield.io/simple-method-for-distance-to-ellipse/) for further understanding.

@@ -1,18 +1,17 @@
 ---
-import HeaderLink from './HeaderLink.astro';
 import { SITE_TITLE } from '../consts';
+
+const { pathname } = Astro.url
+const isHome = pathname === '/'
 ---
 
-<header>
-	<h2>
-		<a href="/">{SITE_TITLE}</a>
-	</h2>
+<header class="mx-auto max-w-4xl lg:text-lg my-8">
+  {isHome ?
+    <h1 class="font-bold text-4xl">
+      <a href="/">{SITE_TITLE}</a>
+    </h1> :
+    <h2 class="font-bold text-2xl">
+      <a href="/">{SITE_TITLE}</a>
+    </h2>  
+  }
 </header>
-<style>
-	header {
-		margin: 0em 0 2em;
-	}
-	h2 {
-		margin: 0.5em 0;
-	}
-</style>
