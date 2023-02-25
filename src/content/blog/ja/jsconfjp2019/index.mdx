@@ -4,11 +4,11 @@ pubDate: '2019-12-13'
 description: GraphQLのfragment colocationの話
 ---
 
-import { Speakerdeck } from '../../../../src/components/Speakerdeck';
+import SpeakerDeck from '../../../../components/SpeakerDeck.astro';
 
 [JSConf JP](https://jsconf.jp/2019/)で「GraphQLを用いたサイトにおけるパフォーマンス改善（ECサイトを題材に）」というタイトルで発表を行いました。
 
-<Speakerdeck src={"https://speakerdeck.com/player/eab79ccf11154667812a827ad392481e"} />
+<SpeakerDeck src="https://speakerdeck.com/player/eab79ccf11154667812a827ad392481e" />
 
 発表の一番の趣旨はGraphQLのAPMの読み方とGraphQLを使う際にはきちんとGraphQLにそった設計をしようというもので、 具体的にはGraphQLのqueryはcomponentに紐づく（componentで描画したいものを取得する）ので、
 FragmentとColocationを使ってそれらを実現しようというものでした。
