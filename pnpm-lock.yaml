@@ -6,11 +6,16 @@ specifiers:
   '@astrojs/sitemap': ^1.1.0
   '@astrojs/tailwind': ^3.0.1
   '@tailwindcss/typography': ^0.5.9
+  '@types/mdast': ^3.0.10
   astro: ^2.0.15
+  astro-auto-import: ^0.2.1
   prettier: ^2.8.4
   prettier-plugin-astro: ^0.8.0
   prettier-plugin-tailwindcss: ^0.2.3
   tailwindcss: ^3.2.7
+  unified: ^10.1.2
+  unist-util-visit: ^4.1.2
+  vfile: ^5.3.7
 
 dependencies:
   '@astrojs/mdx': 0.17.2_astro@2.0.15
@@ -18,10 +23,15 @@ dependencies:
   '@astrojs/sitemap': 1.1.0
   '@astrojs/tailwind': 3.0.1_enl5tymeuxlslzmmdrwlr7zkvy
   astro: 2.0.15
+  astro-auto-import: 0.2.1_astro@2.0.15
   tailwindcss: 3.2.7
+  unified: 10.1.2
+  unist-util-visit: 4.1.2
+  vfile: 5.3.7
 
 devDependencies:
   '@tailwindcss/typography': 0.5.9_tailwindcss@3.2.7
+  '@types/mdast': 3.0.10
   prettier: 2.8.4
   prettier-plugin-astro: 0.8.0
   prettier-plugin-tailwindcss: 0.2.3_cfgkwvtfb3vmyej4cugnuognhu
@@ -821,7 +831,6 @@ packages:
     resolution: {integrity: sha512-W864tg/Osz1+9f4lrGTZpCSO5/z4608eUp19tbozkq2HJK6i3z1kT0H9tlADXuYIb1YYOBByU4Jsqkk75q48qA==}
     dependencies:
       '@types/unist': 2.0.6
-    dev: false
 
   /@types/mdx/2.0.3:
     resolution: {integrity: sha512-IgHxcT3RC8LzFLhKwP3gbMPeaK7BM9eBH46OdapPA7yvuIUJ8H6zHZV53J8hGZcTSnt95jANt+rTBNUUc22ACQ==}
@@ -841,6 +850,10 @@ packages:
     resolution: {integrity: sha512-w+tIMs3rq2afQdsPJlODhoUEKzFP1ayaoyl1CcnwtIlsVe7K7bA1NGm4s3PraqTLlXnbIN84zuBlxBWo1u9BLw==}
     dev: false
 
+  /@types/node/18.14.1:
+    resolution: {integrity: sha512-QH+37Qds3E0eDlReeboBxfHbX9omAcBCXEzswCu6jySP642jiM3cYSIkU/REqwhCUqXdonHFuBfJDiAJxMNhaQ==}
+    dev: false
+
   /@types/parse5/6.0.3:
     resolution: {integrity: sha512-SuT16Q1K51EAVPz1K29DJ/sXjhSQ0zjvsypYJ6tlwVsRV9jwW5Adq2ch8Dq8kDBCkYnELS7N7VNCSB5nC56t/g==}
     dev: false
@@ -852,12 +865,11 @@ packages:
   /@types/sax/1.2.4:
     resolution: {integrity: sha512-pSAff4IAxJjfAXUG6tFkO7dsSbTmf8CtUpfhhZ5VhkRpC4628tJhh3+V6H1E+/Gs9piSzYKT5yzHO5M4GG9jkw==}
     dependencies:
-      '@types/node': 17.0.45
+      '@types/node': 18.14.1
     dev: false
 
   /@types/unist/2.0.6:
     resolution: {integrity: sha512-PBjIUxZHOuj0R15/xuwJYjFi+KZdNFrehocChv4g5hu6aFroHue8m0lBP0POdK2nKzbw0cgV1mws8+V/JAcEkQ==}
-    dev: false
 
   /@types/yargs-parser/21.0.0:
     resolution: {integrity: sha512-iO9ZQHkZxHn4mSakYV0vFHAVDyEOIJQrV2uZ06HxEPcx+mt8swXoZHIbaaJ2crJYFfErySgktuTZ3BeLz+XmFA==}
@@ -965,6 +977,17 @@ packages:
   /astring/1.8.4:
     resolution: {integrity: sha512-97a+l2LBU3Op3bBQEff79i/E4jMD2ZLFD8rHx9B6mXyB2uQwhJQYfiDqUwtfjF4QA1F2qs//N6Cw8LetMbQjcw==}
     hasBin: true
+    dev: false
+
+  /astro-auto-import/0.2.1_astro@2.0.15:
+    resolution: {integrity: sha512-UDBdJ2IQs8fWfDysFu63PY+Ue96vo7ce6YZzQ/YXdPq+MG2/AIL0+IlMuWdmyWmsuG2qVmRCWtlDNcPKRSu3Vg==}
+    engines: {node: '>=16.0.0'}
+    peerDependencies:
+      astro: ^1.0.0 || ^2.0.0-beta
+    dependencies:
+      '@types/node': 18.14.1
+      acorn: 8.8.2
+      astro: 2.0.15
     dev: false
 
   /astro/2.0.15:

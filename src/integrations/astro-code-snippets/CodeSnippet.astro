@@ -1,0 +1,41 @@
+---
+export interface Props {
+	lang?: string;
+	title?: string;
+	removedLineIndex?: string;
+	removedLineCount?: string;
+	lineMarkings?: string;
+	inlineMarkings?: string;
+}
+
+const {
+	title = '',
+} = Astro.props as Props;
+
+// Render the default slot, which contains the syntax-highlighted code in HTML format
+// as processed by Astro's Shiki integration
+let codeSnippetHtml = await Astro.slots.render('default');
+
+// Generate HTML code from the title (if any), improving the ability to wrap long file paths
+// into multiple lines by inserting a line break opportunity after each slash
+const titleHtml = decodeURIComponent(title).replace(/([\\/])/g, '$1<wbr/>');
+---
+
+<style is:global>
+pre.astro-code {
+  margin: 0 !important;
+}
+
+figcaption + pre.astro-code {
+  border-top-left-radius: 0;
+}
+</style>
+
+<figure>
+  {titleHtml &&
+    <figcaption class="!leading-none">
+      <span class="bg-neutral-600 text-xs text-slate-50 rounded-t  px-4 py-1 inline-block" set:html={titleHtml} />
+    </figcaption>
+  }
+	<Fragment set:html={codeSnippetHtml} />
+</figure>

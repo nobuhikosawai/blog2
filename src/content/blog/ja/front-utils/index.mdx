@@ -68,40 +68,35 @@ src/path/to/your/pages
 
 それぞれのファイルの中身は以下の通り。
 
-```ts:title=index.tsx
+```ts title="index.tsx"
 export { default, Props } from './your-component';
 ```
 
-```ts:title=your-component.tsx
+```ts title="your-component.tsx"
 import React from 'react';
 
-export interface Props {
-}
+export interface Props {}
 
 const YourComponent: React.FC<Props> = () => {
-  return (
-    <div>
-    </div>
-  );
-}
+  return <div></div>;
+};
 
 export default YourComponent;
 ```
 
-```ts:title=your-component.stories.tsx
+```ts title="your-component.stories.tsx"
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import YourComponent, { Props } from './your-component';
 
 const stories = storiesOf('components/YourComponent', module);
 
-const props: Props = {
-};
+const props: Props = {};
 
 stories.add('YourComponent', () => <YourComponent {...props} />);
 ```
 
-`your-component.css`はファイルのみ
+`your-component.css` はファイルのみ
 
 ## コード例
 
@@ -125,7 +120,7 @@ lib/schematics
 
 それぞれのファイルの中身は以下の通り。
 
-```ts:title=src/component/index.ts
+```ts title="src/component/index.ts"
 import { strings } from '@angular-devkit/core';
 import {
   Rule,
@@ -146,7 +141,7 @@ interface Options {
   path: string;
 }
 
-export default function(options: Options): Rule {
+export default function (options: Options): Rule {
   return () => {
     const { name, path } = options;
     if (!name) {
@@ -170,11 +165,11 @@ export default function(options: Options): Rule {
 
 また、テンプレートとしては以下のようなファイルを用意する。
 
-```ts:title=src/component/files/index.tsx
+```ts title="src/component/files/index.tsx"
 export { default, Props } from './<%= dasherize(name) %>';
 ```
 
-```ts:title=src/component/files/__name@dasherize__.tsx
+```ts title="src/component/files/__name@dasherize__.tsx"
 import React from 'react';
 
 export interface Props {
@@ -190,7 +185,7 @@ const <%= classify(name) %>: React.FC<Props> = () => {
 export default <%= classify(name) %>;
 ```
 
-```ts:title=src/component/files/__name@dasherize__.stories.tsx
+```ts title="src/component/files/__name@dasherize__.stories.tsx"
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import <%= classify(name) %>, { Props } from './<%= dasherize(name) %>';
@@ -205,7 +200,7 @@ stories.add('<%= classify(name) %>', () => <<%= classify(name) %> {...props} />)
 
 `src/component/files/__name@dasherize__.css`は空にしてファイルだけおいている。
 
-```js:title=collection.json
+```json title="collection.json"
 {
   "$schema": "../../node_modules/@angular-devkit/schematics/collection-schema.json",
   "schematics": {
@@ -219,7 +214,7 @@ stories.add('<%= classify(name) %>', () => <<%= classify(name) %> {...props} />)
 
 実際に使用するには ts を transpile してから実行。以下のような script を登録しておくと便利
 
-```js
+```json title="package.json"
 "scripts": {
     "build:schematics": "tsc -p ./lib/schematics && cp -r ./lib/schematics/src/component/files ./lib/schematics/built/component",
     "gen:component": "schematics .:component --dry-run=false",
