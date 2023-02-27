@@ -17,9 +17,9 @@ const { title, description } = Astro.props;
     <BaseHead title={title} description={description} />
   </head>
 
-  <body>
+  <body class="transition-colors dark:bg-slate-800">
     <Header />
-    <main class="prose prose-slate mx-auto lg:prose-lg lg:max-w-4xl">
+    <main class="prose prose-slate mx-auto lg:prose-lg lg:max-w-4xl dark:prose-invert transition-colors">
       <slot />
     </main>
     <Footer />

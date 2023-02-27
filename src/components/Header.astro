@@ -1,14 +1,15 @@
 ---
 import { SITE_TITLE } from '../consts';
+import ThemeToggle from './ThemeToggle.astro';
 
 const { pathname } = Astro.url;
 const isHome = pathname === '/';
 ---
 
-<header class="mx-auto my-8 max-w-4xl lg:text-lg">
+<header class="flex justify-between items-center mx-auto my-8 max-w-4xl lg:text-lg dark:text-slate-300">
   {
     isHome ? (
-      <h1 class="text-4xl font-bold">
+      <h1 class="text-4xl font-bold ">
         <a href="/">{SITE_TITLE}</a>
       </h1>
     ) : (
@@ -17,4 +18,5 @@ const isHome = pathname === '/';
       </h2>
     )
   }
+  <ThemeToggle />
 </header>
