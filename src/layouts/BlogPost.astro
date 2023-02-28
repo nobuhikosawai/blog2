@@ -3,7 +3,7 @@ import type { CollectionEntry } from 'astro:content';
 import { Image } from '@astrojs/image/components';
 import FormattedDate from '../components/FormattedDate.astro';
 import BaseLayout from './BaseLayout.astro';
-import Bio from '../components/Bio/index.astro'
+import Bio from '../components/Bio/index.astro';
 
 type Props = CollectionEntry<'blog'>['data'];
 
@@ -11,7 +11,9 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 ---
 
 <BaseLayout title={title} description={description}>
-  <article class="prose prose-slate lg:prose-lg max-w-none py-12 lg:p-0 dark:prose-invert transition-colors">
+  <article
+    class="prose prose-slate max-w-none py-12 transition-colors dark:prose-invert lg:prose-lg lg:p-0"
+  >
     {heroImage && <Image width={720} height={360} src={heroImage} alt="" />}
     <h1>{title}</h1>
     <FormattedDate date={pubDate} />
@@ -24,6 +26,6 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
     }
     <slot />
   </article>
-  <hr class="border-slate-200 my-[3em] lg:my-[3.11111em]" />
+  <hr class="my-[3em] border-slate-200 lg:my-[3.11111em]" />
   <Bio />
 </BaseLayout>

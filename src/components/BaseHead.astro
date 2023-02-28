@@ -39,5 +39,8 @@ const { title, description, image = '/placeholder-social.jpg' } = Astro.props;
 <meta property="twitter:image" content={new URL(image, Astro.url)} />
 
 <!-- Dark mode theme toggle -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/theme-toggles@4.10.1/css/expand.min.css">
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/theme-toggles@4.10.1/css/expand.min.css"
+/>
 <script is:inline src="/theme-toggle.js"></script>
