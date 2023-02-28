@@ -17,6 +17,8 @@
     "@astrojs/rss": "^2.1.1",
     "@astrojs/sitemap": "^1.1.0",
     "@astrojs/tailwind": "^3.0.1",
+    "@remark-embedder/core": "^3.0.1",
+    "@remark-embedder/transformer-oembed": "^3.0.0",
     "astro": "^2.0.15",
     "astro-auto-import": "^0.2.1",
     "sharp": "^0.31.3",
