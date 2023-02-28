@@ -57,7 +57,9 @@ window.onload = () => {
   });
 };
 
-window.addEventListener('colorscheme', (event) => {
-  const theme = event.detail.colorScheme;
-  setPreference(theme);
-});
+window
+  .matchMedia('(prefers-color-scheme: dark)')
+  .addEventListener('change', (event) => {
+    const theme = event.matches ? 'dark' : 'light';
+    setPreference(theme);
+  });
