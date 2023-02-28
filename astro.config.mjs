@@ -7,13 +7,21 @@ import { astroCodeSnippets, codeSnippetAutoImport } from './src/integrations/ast
 import partytown from "@astrojs/partytown";
 
 // https://astro.build/config
+import image from "@astrojs/image";
+
+// https://astro.build/config
 export default defineConfig({
   site: 'https://nobuhikosawai.com/',
   integrations: [AutoImport({
     imports: [codeSnippetAutoImport]
   }), astroCodeSnippets(), sitemap(), tailwind(), mdx(), partytown({
-    config: { 
-      forward: ["dataLayer.push"] 
-    },
-    })]
+    config: {
+      forward: ["dataLayer.push"]
+    }
+  }), image({
+serviceEntryPoint: '@astrojs/image/sharp'
+    }
+
+
+    )]
 });

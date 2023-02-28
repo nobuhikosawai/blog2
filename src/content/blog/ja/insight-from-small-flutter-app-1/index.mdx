@@ -4,6 +4,7 @@ pubDate: 2021-04-17
 description: Riverpod, Flutter Hooks, StateNotifier, Freezedを使ったFlutterアプリの設計について
 ---
 
+import { Image } from '@astrojs/image/components';
 import AppVideo from './todo_app_example.mp4';
 import LoginVideo from './todo_app_login.mp4';
 import dependency from './dependency.jpg';
@@ -262,7 +263,7 @@ todo アプリの例ではそこまで必要なかったので作成はしてい
 
 上記をもとに実装の依存の順番まとめたものが以下です。
 
-<img src={dependency} alt="dependency order" />
+<Image src={dependency} alt="dependency order" />
 
 UI Widet は StateNotifierProvider を経由して、Controller(StateNotifier)に依存し、StateNotifier は RepositoryProvider 経由で Repository に依存します。
 

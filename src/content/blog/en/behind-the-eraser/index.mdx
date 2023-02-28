@@ -4,6 +4,7 @@ pubDate: 2023-02-08
 description: My experience and learning from creating eraser function
 ---
 
+import { Image } from '@astrojs/image/components';
 import splitting from './splitting.png';
 import clipWithLine from './clip-with-line.png';
 import clipWithRect from './clip-with-rect.png';
@@ -31,7 +32,7 @@ This is probably the spec that you would come up in the first place and more int
 Eraser will detect the collisions with annotations and split them with new small annotations.
 You can find more detailed discussion and explanation on [this issue comment of excalidraw](https://github.com/excalidraw/excalidraw/issues/3500#issuecomment-826685538)
 
-<img src={splitting} />
+<Image src={splitting} />
 
 As described above, this spec is intuitive to users but the implementation is probably very difficult especially if the data is vector data (not raster) . Also, users have to manage all the chunks split by the eraser and this is not very handy.
 
@@ -92,11 +93,11 @@ In our app, to avoid saving unnecessary data, the eraser stroke that does not de
 
 To erase a shape, you have to detect if the current cursor is overlapping any shape. More precisely, you have to detect if the line segment comprised of the current cursor position and the previous position is intersecting a shape. If this line intersects a shape then it is erased.
 
-<img src={intersecting} alt="Case where the eraser is intersecting a shape" />
+<Image src={intersecting} alt="Case where the eraser is intersecting a shape" />
 
 The other case you should consider is when the shape stroke is very thick. In this case, although the line segment of pervious point and the current point does not intersect a shape, because the stroke is thick, it would look as if the eraser is overlapping an underlying shape. In this case the current point have to be considered as an effective eraser stroke.
 
-<img
+<Image
   src={closeToShape}
   alt="Case where the eraser is not interscting but close enough to delete a shape"
 />
@@ -111,11 +112,11 @@ To treat a shape as being erased, group a shape with eraser stroke. (Convert to 
 
 When deleting a path, the final result would be like this.
 
-<img src={clipWithLine} alt="Line clipping with line" />
+<Image src={clipWithLine} alt="Line clipping with line" />
 
 When erasing a rectangle shape, then it would be like this.
 
-<img src={clipWithRect} alt="Line clipping with rectanble" />
+<Image src={clipWithRect} alt="Line clipping with rectanble" />
 
 ### Intersection detection & clipping
 

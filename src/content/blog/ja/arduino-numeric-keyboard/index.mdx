@@ -4,6 +4,7 @@ pubDate: '2020-10-10'
 description: Arduino Leonardでテンキー（のプロトタイピング）を作った話のとキーマトリックスについて
 ---
 
+import { Image } from '@astrojs/image/components';
 import sample from './numeric_keyboard_sample.jpg';
 import fritzing from './fritzing.png';
 
@@ -37,7 +38,7 @@ import fritzing from './fritzing.png';
 
 写真はこちら
 
-<img src={sample} alt="成果物" />
+<Image src={sample} alt="成果物" />
 
 ## 使ったもの
 
@@ -70,7 +71,7 @@ import fritzing from './fritzing.png';
 
 配線図は[fritzing](https://fritzing.org)で作成した。OSS なので公式のページの他、[Github](https://github.com/fritzing/fritzing-app)からも入手が可能。
 
-<img src={fritzing} alt="配線" />
+<Image src={fritzing} alt="配線" />
 
 ### プログラム
 
