@@ -2,6 +2,7 @@
 import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import GA from '../components/GA.astro';
 
 export type Props = {
   title: string;
@@ -16,6 +17,8 @@ const { title, description } = Astro.props;
   <head>
     <BaseHead title={title} description={description} />
   </head>
+
+  <GA />
 
   <body class="transition-colors dark:bg-slate-800">
     <Header />
