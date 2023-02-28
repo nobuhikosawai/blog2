@@ -15,10 +15,9 @@ const { title, description } = Astro.props;
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <GA />
     <BaseHead title={title} description={description} />
   </head>
-
-  <GA />
 
   <body class="transition-colors dark:bg-slate-800">
     <Header />
