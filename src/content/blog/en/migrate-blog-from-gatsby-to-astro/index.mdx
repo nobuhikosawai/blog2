@@ -1,0 +1,119 @@
+---
+title: Migrating my blog from Gatsby to Astro
+pubDate: '2023-03-12'
+description: Migrating from Gatsby to Astro with a few tweaks and integration to customize.
+---
+
+I recently switched my blog from [Gatsby](https://www.gatsbyjs.com/) to [Astro](https://astro.build/). Here's what I did for that.
+
+## Background
+
+A few years ago, I launched my blog with Gatsby, one of the most popular static site generator built with React. Even the [React documentation](https://reactjs.org/docs/getting-started.html) was built on top of it. Since I wanted my blog to be a playground for tech stack that I don't use in my daily work, I started with Gatsby. Gatsby was great in many ways. It had its own rich ecosystem, with [many plugins](https://www.gatsbyjs.com/plugins), built-in performance, and it was rather easy to start with. However it had some drawbacks. Whenever I wanted to do something, I had to follow the "Gatsby-way". For example, when I added the dark color mode, I wanted to insert a script tag in my blog. To do that, I had to do some research and found that I had to add a callback function to the `gatsby-ssr.js` file using `dangerouslySetInnerHTML`. This felt tricky to me.
+
+```js
+export const onRenderBody = ({ setHeadComponents }) => {
+  setHeadComponents([
+    <script
+      dangerouslySetInnerHTML={{
+        __html: `
+					// some function here.
+				`,
+      }}
+    />,
+  ]);
+};
+```
+
+Gatsby was also built in its own way, using GraphQL, [Typography.js](https://kyleamathews.github.io/typography.js/), own life cycle, etc.I did not tweak my blog much (just added dark mode, ToC and language button), but every time I did it was daunting.
+
+### Considering Alternatives
+
+I was thinking to switch something else beside Gatsby. Initially, I considered switching to Next.js, but then Astro v1 came out, which sounded perfect to me.
+
+### Why Astro?
+
+Astro is another static site generator with Zero JS by default, but you can include some JS with [Component Islands](https://docs.astro.build/en/concepts/islands/) architecture. (Btw, when I first saw the [island architecture](https://jasonformat.com/islands-architecture/) diagram, I felt very excited because I was experimenting with "micro-frontend" before, and even thought they are not quite the same, the concept diagram looked very similar at the first glance.) It supports `.astro` (its own DSL by default) which looks a bit weird at first but once you are used to it, it is not so bad because the format is similar to JSX. It also supports integration with many other frontend frameworks (such as React, Vue, Svelte and more). Astro seems to be simple but seems to be flexible enough with integrations so I switched to it.
+
+## Migration process
+
+First, I learned Astor by following [the tutorial](https://docs.astro.build/en/tutorial/0-introduction/), which was very comprehensive. Then, I began a new project by using [the migrating guide](https://docs.astro.build/en/guides/migrate-to-astro/from-gatsby/). It was mostly straightforward, and documentation was very well, but I needed to make a few additional tweaks. I may write a separate blog posts for each topic, but here is a summary what I did:
+
+### Tips
+
+[The Astro documentation](https://github.com/withastro/docs) itself is an excellent example project that you can use as a reference.
+
+### Code block with title
+
+You can write code block by using triple backquotes, but if you wanted to add title to it, you need to make a tweak. Gatsby has a [plugin](https://github.com/DSchau/gatsby-remark-code-titles) for that, so I wanted to something similar. Luckily, Astro is doing the exact thing on the docs, which is [written as an integration. So,](https://github.com/withastro/docs/blob/main/integrations/astro-code-snippets.ts) I ported it from there. It is written as a remark plugin to parse the title from the code block and embed the corresponding component by using [astro-auto-import](https://github.com/delucis/astro-auto-import/tree/main/packages/astro-auto-import). The supported syntax is:
+
+````markdown
+```js title="example.js"
+
+```
+````
+
+The original plugin supports code highlight as well, but I have not used it in my blog so far, so I did not import it.
+
+### Image
+
+Astro provides the [image integration](https://docs.astro.build/en/guides/images/). The image can be stored in several locations, but I chose to save the same directory with markdown file and use mdx import because I wanted to save them close to the markdown file rather than saving them in `public/assets/`.
+
+### Analytics
+
+I am using Google Analytics in this blog. To install it, I use [partytown integration](https://docs.astro.build/en/guides/integrations-guide/partytown/). Partytown is a library to move intensive script off of the main thread by using web worker. I have only heard about it and did not know when to use it. Now I know the one of the best use cases.
+
+### Twitter card / oEmbed
+
+Gatsby has a plugin called [gatsby-remark-embedder](https://www.gatsbyjs.com/plugins/gatsby-remark-embedder/) to embed third-party contents (such as Twitter and YouTube) to a blog. It will parse the Twitter URL in the markdown content and convert it to `iframe` automatically to embed the content.
+
+To achieve this, I picked [@remark-embedder/core](https://github.com/remark-embedder/core) and [@remark-embedder/transformer-oembed](https://github.com/remark-embedder/transformer-oembed). It does the same thing as the Gatsby plugin because it was extracted from it. The [transformer implementation](https://github.com/remark-embedder/transformer-oembed/blob/main/src/index.ts) is very clean with the power of [oEmbed](https://oembed.com/). I used to have my own [SpeakerDeck component](https://github.com/nobuhikosawai/blog/blob/master/src/components/Speakerdeck.js), but I finally abandoned it because SpeakerDeck also supports oEmbed.
+
+They are implemented as remarkPlugin, so the installation is like this:
+
+```js title="astro.config.mjs"
+import remarkEmbedder from '@remark-embedder/core';
+import oembedTransformer from '@remark-embedder/transformer-oembed';
+
+// To use twitter's widget.js, you have to wrap by <div></div> to work with @remark-embedder/core.
+function handleHTML(html, info) {
+  const { url, transformer } = info;
+  if (
+    transformer.name === '@remark-embedder/transformer-oembed' ||
+    url.includes('twitter.com')
+  ) {
+    return `<div style="max-width: max-content; margin-left: auto; margin-right: auto">${html}</div>`;
+  }
+  return html;
+}
+
+// https://astro.build/config
+export default defineConfig({
+  site: 'https://nobuhikosawai.com/',
+  markdown: {
+    remarkPlugins: [
+      [
+        remarkEmbedder,
+        {
+          transformers: [oembedTransformer],
+          handleHTML,
+        },
+      ],
+    ],
+  },
+ ...
+})
+```
+
+### Design - tailwind and darkmode
+
+I also redesigned my blog (and probably spent the most time on this.). For this work, I used Tailwind CSS which made the process much easier thanks to its pre-picked color token. In my previous blog, I had to manually select all the colors, but Tailwind made it simpler and the result looks better than the last one.
+
+To design the markdown content, I used [@tailwindcss/typography](https://tailwindcss.com/docs/typography-plugin), which is beautifully designed, especially for text content. However, this plugin has a strong style, so I recommend to only apply it to the text content. Initially, I applied it to my entire blog to short-cut the designing process and used `not-prose` class to undo the style when I don't want to apply. But I later realized that I was using `not-prose` too often and stopped using it anything other than text.
+
+My previous blog had a dark mode, so I implemented again this time. I used the animated theme switcher from [toggles.dev](https://toggles.dev/) to add nice animation. This [web.dev article](https://web.dev/building-a-theme-switch-component/) was very helpful in implementing the dark mode feature.
+
+## Conclusion
+
+All in all, Astro is great and perfect match for my blog. The migration process from Gatsby to Astro is relatively straightforward, and the Astro documentation is a great resource for reference. With a few tweaks and integrations, you can customize your Astro blog to your liking. Now that I have refreshed my blog, I am excited to write more content here.
+
+(Note: The content of this text has been written by me, but brushed up with the assistance of Chat GPT-3 to improve the clarity and accuracy of my English.)
