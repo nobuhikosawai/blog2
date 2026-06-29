@@ -37,7 +37,7 @@ const posts = (await getCollection('blog', filter)).sort(
                   {post.data.title}
                 </a>
                 <FormattedDate
-                  className="mt-2 mb-4 block text-sm italic"
+                  className="mb-4 mt-2 block text-sm italic"
                   date={post.data.pubDate}
                 />
               </header>
