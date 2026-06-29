@@ -4,7 +4,7 @@ pubDate: 2023-02-08
 description: My experience and learning from creating eraser function
 ---
 
-import { Image } from '@astrojs/image/components';
+import { Image } from 'astro:assets';
 import splitting from './splitting.png';
 import clipWithLine from './clip-with-line.png';
 import clipWithRect from './clip-with-rect.png';
@@ -32,7 +32,7 @@ This is probably the spec that you would come up in the first place and more int
 Eraser will detect the collisions with annotations and split them with new small annotations.
 You can find more detailed discussion and explanation on [this issue comment of excalidraw](https://github.com/excalidraw/excalidraw/issues/3500#issuecomment-826685538)
 
-<Image src={splitting} />
+<Image src={splitting} alt="" />
 
 As described above, this spec is intuitive to users but the implementation is probably very difficult especially if the data is vector data (not raster) . Also, users have to manage all the chunks split by the eraser and this is not very handy.
 

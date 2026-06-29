@@ -12,9 +12,6 @@ import partytown from '@astrojs/partytown';
 import remarkEmbedder from '@remark-embedder/core';
 import oembedTransformer from '@remark-embedder/transformer-oembed';
 
-// https://astro.build/config
-import image from '@astrojs/image';
-
 // for oembedTransformer
 function handleHTML(html, info) {
   const { url, transformer } = info;
@@ -53,9 +50,6 @@ export default defineConfig({
       config: {
         forward: ['dataLayer.push'],
       },
-    }),
-    image({
-      serviceEntryPoint: '@astrojs/image/sharp',
     }),
   ],
 });
